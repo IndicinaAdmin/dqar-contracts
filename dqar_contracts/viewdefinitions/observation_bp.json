@@ -1,0 +1,20 @@
+{
+  "resourceType": "ViewDefinition",
+  "name": "observation_bp",
+  "resource": "Observation",
+  "status": "active",
+  "description": "Blood pressure Observations for CBP measure. getResourceKey() required for lineage chain.",
+  "select": [
+    {
+      "column": [
+        {"name": "observation_id",  "path": "getResourceKey()"},
+        {"name": "patient_id",      "path": "subject.getId()"},
+        {"name": "encounter_id",    "path": "encounter.getId()"},
+        {"name": "effective_date",  "path": "effectiveDateTime"},
+        {"name": "systolic",        "path": "component.where(code.coding.code='8480-6').value.ofType(Quantity).value"},
+        {"name": "diastolic",       "path": "component.where(code.coding.code='8462-4').value.ofType(Quantity).value"},
+        {"name": "category_code",   "path": "category.coding.code.first()"}
+      ]
+    }
+  ]
+}
