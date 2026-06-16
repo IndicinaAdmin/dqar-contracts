@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "description": "Indicina DQAR AuditEvent seven-extension pattern. EXT 1-5 from inference algorithm. EXT 6-7 from pipeline orchestrator.",
+  "description": "Sonian DQAR AuditEvent seven-extension pattern. EXT 1-5 from inference algorithm. EXT 6-7 from pipeline orchestrator.",
   "extensions": [
     {
       "id": "EXT1",
-      "url": "http://indicina.com/fhir/ext/source-type",
+      "url": "http://Sonian.io/fhir/ext/source-type",
       "valueType": "valueCode",
       "source": "inference_algorithm",
       "tier_a_vocabulary": [
@@ -20,21 +20,21 @@
     },
     {
       "id": "EXT2",
-      "url": "http://indicina.com/fhir/ext/source-system-id",
+      "url": "http://Sonian.io/fhir/ext/source-system-id",
       "valueType": "valueString",
       "source": "inference_algorithm",
       "note": "Resolvable at asserted confidence only via Priority 0 (Provenance), Priority 1 (feed manifest with source_system_uri), or Priority 2 (meta.source). Priorities 3-6 cannot identify originating system."
     },
     {
       "id": "EXT3",
-      "url": "http://indicina.com/fhir/ext/source-feed-id",
+      "url": "http://Sonian.io/fhir/ext/source-feed-id",
       "valueType": "valueString",
       "source": "inference_algorithm",
       "note": "Primary key for feed-level queries and risk stratification matrix."
     },
     {
       "id": "EXT4",
-      "url": "http://indicina.com/fhir/ext/source-inference-confidence",
+      "url": "http://Sonian.io/fhir/ext/source-inference-confidence",
       "valueType": "valueCode",
       "source": "inference_algorithm",
       "vocabulary": ["asserted", "high", "medium", "low", "unknown"],
@@ -42,7 +42,7 @@
     },
     {
       "id": "EXT5",
-      "url": "http://indicina.com/fhir/ext/ecds-ssor",
+      "url": "http://Sonian.io/fhir/ext/ecds-ssor",
       "valueType": "valueCode",
       "source": "derived_from_EXT1",
       "vocabulary": ["EHR/PHR", "Administrative", "Clinical Registry/HIE", "Case/Disease Mgmt"],
@@ -66,7 +66,7 @@
     },
     {
       "id": "EXT6",
-      "url": "http://indicina.com/fhir/ext/ingest-pipeline-id",
+      "url": "http://Sonian.io/fhir/ext/ingest-pipeline-id",
       "valueType": "valueString",
       "source": "pipeline_orchestrator",
       "format": "{pipeline-run-id}/{feed-id}/{batch-id}",
@@ -74,7 +74,7 @@
     },
     {
       "id": "EXT7",
-      "url": "http://indicina.com/fhir/ext/ol-run-id",
+      "url": "http://Sonian.io/fhir/ext/ol-run-id",
       "valueType": "valueString",
       "source": "pipeline_orchestrator",
       "format": "UUID v4",

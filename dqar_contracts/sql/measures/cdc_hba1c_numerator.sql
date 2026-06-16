@@ -17,7 +17,7 @@ SELECT
         CROSS JOIN LATERAL jsonb_array_elements(ae.resource->'extension') ext_ol
         CROSS JOIN LATERAL jsonb_array_elements(ae.resource->'entity') ent
         WHERE ent.value->>'reference' = 'Observation/' || o.observation_id
-          AND ext_ol.value->>'url' = 'http://indicina.com/fhir/ext/ol-run-id'
+          AND ext_ol.value->>'url' = 'http://Sonian.io/fhir/ext/ol-run-id'
         LIMIT 1
     )                                  AS ol_run_id,
     (
@@ -26,7 +26,7 @@ SELECT
         CROSS JOIN LATERAL jsonb_array_elements(ae.resource->'extension') ext_feed
         CROSS JOIN LATERAL jsonb_array_elements(ae.resource->'entity') ent
         WHERE ent.value->>'reference' = 'Observation/' || o.observation_id
-          AND ext_feed.value->>'url' = 'http://indicina.com/fhir/ext/source-feed-id'
+          AND ext_feed.value->>'url' = 'http://Sonian.io/fhir/ext/source-feed-id'
         LIMIT 1
     )                                  AS source_feed_id
 FROM sof.observation_hba1c o
