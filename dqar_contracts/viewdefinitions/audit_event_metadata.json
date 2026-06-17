@@ -24,7 +24,7 @@
     {
       "forEachOrNull": "entity",
       "column": [
-        {"name": "entity_ref",  "path": "what.reference"},
+        {"name": "entity_id",   "path": "what.id"},
         {"name": "entity_type", "path": "what.type"},
         {"name": "entity_role", "path": "role.code"}
       ]
