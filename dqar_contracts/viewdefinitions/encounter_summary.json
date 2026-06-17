@@ -8,12 +8,13 @@
     {
       "column": [
         {"name": "encounter_id",     "path": "getResourceKey()"},
-        {"name": "patient_id",       "path": "subject.getId()"},
+        {"name": "patient_id",       "path": "subject.getReferenceKey(Patient)"},
         {"name": "status",           "path": "status"},
         {"name": "class_code",       "path": "class.code"},
         {"name": "period_start",     "path": "period.start"},
         {"name": "period_end",       "path": "period.end"},
-        {"name": "service_provider", "path": "serviceProvider.getId()"}
+        {"name": "service_provider", "path": "serviceProvider.getReferenceKey(Organization)"},
+        {"name": "ts",               "path": "getAidboxTs()"}
       ]
     },
     {

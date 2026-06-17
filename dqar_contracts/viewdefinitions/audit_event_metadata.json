@@ -1,0 +1,33 @@
+{
+  "resourceType": "ViewDefinition",
+  "name": "audit_event_metadata",
+  "resource": "AuditEvent",
+  "status": "active",
+  "description": "Flattens AuditEvent with all 7 Sonian lineage extension fields. One row per entity entry per AuditEvent. Enables SQL-based risk stratification and lineage tracing without raw JSONB extraction.",
+  "select": [
+    {
+      "column": [
+        {"name": "audit_event_id",   "path": "getResourceKey()"},
+        {"name": "recorded",         "path": "recorded"},
+        {"name": "ts",               "path": "getAidboxTs()"},
+        {"name": "action",           "path": "action"},
+        {"name": "outcome",          "path": "outcome"},
+        {"name": "source_type",      "path": "extension.where(url='http://Sonian.io/fhir/ext/source-type').value.ofType(code)"},
+        {"name": "source_system_id", "path": "extension.where(url='http://Sonian.io/fhir/ext/source-system-id').value.ofType(string)"},
+        {"name": "source_feed_id",   "path": "extension.where(url='http://Sonian.io/fhir/ext/source-feed-id').value.ofType(string)"},
+        {"name": "confidence",       "path": "extension.where(url='http://Sonian.io/fhir/ext/source-inference-confidence').value.ofType(code)"},
+        {"name": "ecds_ssor",        "path": "extension.where(url='http://Sonian.io/fhir/ext/ecds-ssor').value.ofType(code)"},
+        {"name": "pipeline_id",      "path": "extension.where(url='http://Sonian.io/fhir/ext/ingest-pipeline-id').value.ofType(string)"},
+        {"name": "ol_run_id",        "path": "extension.where(url='http://Sonian.io/fhir/ext/ol-run-id').value.ofType(string)"}
+      ]
+    },
+    {
+      "forEachOrNull": "entity",
+      "column": [
+        {"name": "entity_ref",  "path": "what.reference"},
+        {"name": "entity_type", "path": "what.type"},
+        {"name": "entity_role", "path": "role.code"}
+      ]
+    }
+  ]
+}

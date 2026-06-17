@@ -10,7 +10,8 @@
         {"name": "patient_id", "path": "getResourceKey()"},
         {"name": "gender",     "path": "gender"},
         {"name": "birth_date", "path": "birthDate"},
-        {"name": "active",     "path": "active"}
+        {"name": "active",     "path": "active"},
+        {"name": "ts",         "path": "getAidboxTs()"}
       ]
     }
   ]
