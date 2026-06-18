@@ -2,8 +2,12 @@
 Engagement config loader and auth adapter.
 
 Supported server types:
-  aidbox  — OAuth2 client_credentials (fetches Bearer token from /auth/token)
-  hapi    — HTTP Basic auth or no auth
+  aidbox   — OAuth2 client_credentials (fetches Bearer token from /auth/token)
+             FHIR base: {base_url}/fhir
+  hapi     — HTTP Basic auth or no auth
+             FHIR base: {base_url} (base_url IS the FHIR endpoint)
+  medplum  — OAuth2 client_credentials (fetches Bearer token from /oauth2/token)
+             FHIR base: {base_url}/fhir/R4
 """
 
 import json
@@ -14,12 +18,15 @@ from typing import Optional
 import requests
 
 
+_SUPPORTED_SERVER_TYPES = ("aidbox", "hapi", "medplum")
+
+
 @dataclass
 class EngagementConfig:
     name: str
-    server_type: str          # "aidbox" | "hapi"
+    server_type: str          # "aidbox" | "hapi" | "medplum"
     base_url: str
-    # Aidbox OAuth2
+    # Aidbox / Medplum OAuth2
     client_id: Optional[str] = None
     client_secret: Optional[str] = None
     # HAPI Basic (both optional — HAPI is often open)
@@ -29,10 +36,12 @@ class EngagementConfig:
     fhir_base: str = field(init=False)
 
     def __post_init__(self):
-        # Aidbox FHIR API lives at {base_url}/fhir; for HAPI the base_url IS the FHIR endpoint
         if self.server_type == "aidbox":
             self.fhir_base = f"{self.base_url}/fhir"
+        elif self.server_type == "medplum":
+            self.fhir_base = f"{self.base_url}/fhir/R4"
         else:
+            # hapi — base_url IS the FHIR endpoint
             self.fhir_base = self.base_url
 
 
@@ -41,8 +50,11 @@ def load_engagement(config_path) -> EngagementConfig:
         data = json.load(f)
 
     server_type = data["server_type"]
-    if server_type not in ("aidbox", "hapi"):
-        raise ValueError(f"Unsupported server_type '{server_type}'. Must be 'aidbox' or 'hapi'.")
+    if server_type not in _SUPPORTED_SERVER_TYPES:
+        raise ValueError(
+            f"Unsupported server_type '{server_type}'. "
+            f"Must be one of: {', '.join(_SUPPORTED_SERVER_TYPES)}."
+        )
 
     return EngagementConfig(
         name=data["name"],
@@ -66,6 +78,10 @@ def get_fhir_headers(engagement: EngagementConfig) -> dict:
         token = _fetch_aidbox_token(engagement)
         base["Authorization"] = f"Bearer {token}"
 
+    elif engagement.server_type == "medplum":
+        token = _fetch_medplum_token(engagement)
+        base["Authorization"] = f"Bearer {token}"
+
     elif engagement.server_type == "hapi":
         if engagement.basic_user and engagement.basic_password:
             import base64
@@ -86,6 +102,25 @@ def _fetch_aidbox_token(engagement: EngagementConfig) -> str:
         )
     response = requests.post(
         f"{engagement.base_url}/auth/token",
+        data={
+            "grant_type": "client_credentials",
+            "client_id": engagement.client_id,
+            "client_secret": engagement.client_secret,
+        },
+    )
+    response.raise_for_status()
+    return response.json()["access_token"]
+
+
+def _fetch_medplum_token(engagement: EngagementConfig) -> str:
+    if not engagement.client_id or not engagement.client_secret:
+        raise ValueError(
+            f"Engagement '{engagement.name}' has server_type 'medplum' "
+            "but is missing client_id or client_secret."
+        )
+    response = requests.post(
+        f"{engagement.base_url}/oauth2/token",
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
         data={
             "grant_type": "client_credentials",
             "client_id": engagement.client_id,
