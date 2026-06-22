@@ -4,12 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dqar-contracts"
-version = "1.0.0"
+version = "1.1.0"
 requires-python = ">=3.9"
 description = "DQAR shared interface definitions — schemas, ViewDefinitions, SQL, EXT metadata"
 dependencies = [
     "requests",
     "jsonschema>=4.0",
+    "pydantic>=2.0",
 ]
 
 [project.optional-dependencies]
@@ -29,4 +30,7 @@ dqar-validate = "dqar_contracts.validate:main"
     "viewdefinitions/*.json",
     "sql/measures/*.sql",
     "ol_facets/*.json",
+]
+"dqar_contracts.measures" = [
+    "sql/*/*.json",
 ]

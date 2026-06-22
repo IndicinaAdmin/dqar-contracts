@@ -1,9 +1,17 @@
-"""Shared engagement config loader and auth adapter."""
+"""Shared engagement config loader, auth adapter, and DQAR shared types."""
 from .engagement import (
     EngagementConfig,
     load_engagement,
     get_fhir_headers,
     engagement_schema_path,
+    Engagement,
+    MeasurementPeriod,
+    OrganizationRef,
+)
+from .measure import (
+    MeasureId,
+    MeasureSpec,
+    ViewDefinitionRef,
 )
 
 __all__ = [
@@ -11,4 +19,10 @@ __all__ = [
     "load_engagement",
     "get_fhir_headers",
     "engagement_schema_path",
+    "Engagement",
+    "MeasurementPeriod",
+    "OrganizationRef",
+    "MeasureId",
+    "MeasureSpec",
+    "ViewDefinitionRef",
 ]

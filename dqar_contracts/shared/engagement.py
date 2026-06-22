@@ -136,3 +136,35 @@ def engagement_schema_path() -> str:
     import importlib.resources as pkg
     ref = pkg.files("dqar_contracts") / "schemas" / "engagement.json"
     return str(ref)
+
+
+# ---------------------------------------------------------------------------
+# Pydantic engagement / identity types shared across all downstream repos
+# ---------------------------------------------------------------------------
+
+from pydantic import BaseModel, Field as PydanticField
+from enum import Enum
+from typing import Optional as Opt
+
+
+class MeasurementPeriod(str, Enum):
+    MY2025 = "MY2025"
+    MY2026 = "MY2026"
+    MY2027 = "MY2027"
+    MY2028 = "MY2028"
+    MY2029 = "MY2029"
+
+
+class OrganizationRef(BaseModel):
+    """Reference to a health plan / organization under assessment."""
+    organization_id: str = PydanticField(..., description="Canonical organization identifier")
+    name: Opt[str] = PydanticField(None, description="Display name")
+
+
+class Engagement(BaseModel):
+    """A single DQAR engagement context, shared across kits."""
+    engagement_id: str = PydanticField(..., description="e.g. UC1-20251014-acme")
+    organization: OrganizationRef
+    measurement_period: MeasurementPeriod
+    prepared_by: Opt[str] = None
+    prepared_date: Opt[str] = PydanticField(None, description="ISO 8601 date")
