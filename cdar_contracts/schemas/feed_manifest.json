@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CDARFeedManifest",
+  "description": "Client-provided declaration of all source system feeds in the Bulk FHIR extract.",
+  "type": "object",
+  "required": ["extract_date", "feeds"],
+  "additionalProperties": false,
+  "properties": {
+    "plan_id":        {"type": "string"},
+    "extract_date":   {"type": "string", "format": "date"},
+    "us_core_version": {
+      "type": "string",
+      "enum": ["3.1.1", "6.1.0", "7.0.0"]
+    },
+    "fhir_version": {"type": "string"},
+    "feeds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["feed_id", "source_system_type", "files"],
+        "additionalProperties": true,
+        "properties": {
+          "feed_id":             {"type": "string"},
+          "feed_type":           {"type": "string"},
+          "source_system_name":  {"type": "string"},
+          "source_system_type": {
+            "type": "string",
+            "enum": [
+              "clinical_ehr", "administrative_claims", "administrative_encounter",
+              "pharmacy_pbm", "pharmacy_specialty", "clinical_lab",
+              "clinical_hie", "clinical_registry", "clinical_immunization_registry",
+              "clinical_phr", "payer_exchange", "case_management",
+              "disease_management", "unknown"
+            ]
+          },
+          "source_system_uri": {
+            "type": "string",
+            "description": "URI for EXT 2 source-system-id at asserted confidence. Optional but closes the EXT 2 gap at Priority 1."
+          },
+          "files": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "NDJSON filenames included in this feed."
+          },
+          "member_count": {"type": "integer", "minimum": 0},
+          "notes":        {"type": "string"}
+        }
+      }
+    }
+  }
+}

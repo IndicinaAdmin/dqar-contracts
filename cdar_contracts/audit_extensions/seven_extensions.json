@@ -1,0 +1,85 @@
+{
+  "version": "1.0.0",
+  "description": "Sonian CDAR AuditEvent seven-extension pattern. EXT 1-5 from inference algorithm. EXT 6-7 from pipeline orchestrator.",
+  "extensions": [
+    {
+      "id": "EXT1",
+      "url": "http://Sonian.io/fhir/ext/source-type",
+      "valueType": "valueCode",
+      "source": "inference_algorithm",
+      "tier_a_vocabulary": [
+        "clinical_ehr", "administrative_claims", "administrative_encounter",
+        "pharmacy_pbm", "clinical_lab", "payer_exchange", "clinical_immunization_registry"
+      ],
+      "tier_b_vocabulary": [
+        "clinical_phr", "pharmacy_specialty", "clinical_hie",
+        "clinical_registry", "case_management", "disease_management"
+      ],
+      "unresolvable": ["unknown"],
+      "finding_on_unknown": "Tier 1 governance gap — metadata management maturity"
+    },
+    {
+      "id": "EXT2",
+      "url": "http://Sonian.io/fhir/ext/source-system-id",
+      "valueType": "valueString",
+      "source": "inference_algorithm",
+      "note": "Resolvable at asserted confidence only via Priority 0 (Provenance), Priority 1 (feed manifest with source_system_uri), or Priority 2 (meta.source). Priorities 3-6 cannot identify originating system."
+    },
+    {
+      "id": "EXT3",
+      "url": "http://Sonian.io/fhir/ext/source-feed-id",
+      "valueType": "valueString",
+      "source": "inference_algorithm",
+      "note": "Primary key for feed-level queries and risk stratification matrix."
+    },
+    {
+      "id": "EXT4",
+      "url": "http://Sonian.io/fhir/ext/source-inference-confidence",
+      "valueType": "valueCode",
+      "source": "inference_algorithm",
+      "vocabulary": ["asserted", "high", "medium", "low", "unknown"],
+      "note": "Confidence distribution across extract is a direct provenance maturity metric."
+    },
+    {
+      "id": "EXT5",
+      "url": "http://Sonian.io/fhir/ext/ecds-ssor",
+      "valueType": "valueCode",
+      "source": "derived_from_EXT1",
+      "vocabulary": ["EHR/PHR", "Administrative", "Clinical Registry/HIE", "Case/Disease Mgmt"],
+      "null_triggers_finding": true,
+      "mapping": {
+        "clinical_ehr":                    "EHR/PHR",
+        "clinical_phr":                    "EHR/PHR",
+        "payer_exchange":                  "EHR/PHR",
+        "administrative_claims":           "Administrative",
+        "administrative_encounter":        "Administrative",
+        "pharmacy_pbm":                    "Administrative",
+        "pharmacy_specialty":              "Administrative",
+        "clinical_lab":                    "Clinical Registry/HIE",
+        "clinical_hie":                    "Clinical Registry/HIE",
+        "clinical_registry":               "Clinical Registry/HIE",
+        "clinical_immunization_registry":  "Clinical Registry/HIE",
+        "case_management":                 "Case/Disease Mgmt",
+        "disease_management":              "Case/Disease Mgmt",
+        "unknown":                         null
+      }
+    },
+    {
+      "id": "EXT6",
+      "url": "http://Sonian.io/fhir/ext/ingest-pipeline-id",
+      "valueType": "valueString",
+      "source": "pipeline_orchestrator",
+      "format": "{pipeline-run-id}/{feed-id}/{batch-id}",
+      "example": "dqar-20251014-001/epic-prod-org447/Condition.ndjson-chunk-003"
+    },
+    {
+      "id": "EXT7",
+      "url": "http://Sonian.io/fhir/ext/ol-run-id",
+      "valueType": "valueString",
+      "source": "pipeline_orchestrator",
+      "format": "UUID v4",
+      "example": "550e8400-e29b-41d4-a716-446655440000",
+      "note": "Batch tag for the ingest run. Not a join key to a managed lineage store after Marquez was dropped. Still required for provenance maturity Level 3+."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "_producer": "https://github.com/indicina/dqar-client-kit",
+  "_schemaURL": "https://Sonian.io/fhir/openlineage/facets/dqar-run-facet/1.0.0",
+  "description": "CDAR-specific OpenLineage run facet. Attached to every ingest RunEvent.",
+  "type": "object",
+  "required": ["engagement_id", "pipeline_id", "extract_date", "rung"],
+  "properties": {
+    "engagement_id":   {"type": "string"},
+    "pipeline_id":     {"type": "string", "description": "Matches EXT 6 ingest-pipeline-id"},
+    "extract_date":    {"type": "string", "format": "date"},
+    "rung":            {"type": "integer", "minimum": 1, "maximum": 4,
+                        "description": "Platform ladder rung: 1=offline, 2=anonymized sandbox, 3=plan Aidbox, 4=full PHI"},
+    "us_core_version": {"type": "string"},
+    "resource_counts": {"type": "object", "additionalProperties": {"type": "integer"}}
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "resourceType": "ViewDefinition",
+  "name": "encounter_summary",
+  "resource": "Encounter",
+  "status": "active",
+  "description": "Encounter summary for measure context constraints (type, class, period).",
+  "select": [
+    {
+      "column": [
+        {"name": "encounter_id",     "path": "getResourceKey()"},
+        {"name": "patient_id",       "path": "subject.getReferenceKey(Patient)"},
+        {"name": "status",           "path": "status"},
+        {"name": "class_code",       "path": "class.code"},
+        {"name": "period_start",     "path": "period.start"},
+        {"name": "period_end",       "path": "period.end"},
+        {"name": "service_provider", "path": "serviceProvider.getReferenceKey(Organization)"},
+        {"name": "ts",               "path": "getAidboxTs()"}
+      ]
+    },
+    {
+      "forEach": "type.coding",
+      "column": [
+        {"name": "type_system", "path": "system"},
+        {"name": "type_code",   "path": "code"}
+      ]
+    }
+  ]
+}

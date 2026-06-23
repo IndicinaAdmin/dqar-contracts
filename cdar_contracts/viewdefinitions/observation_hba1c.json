@@ -1,0 +1,21 @@
+{
+  "resourceType": "ViewDefinition",
+  "name": "observation_hba1c",
+  "resource": "Observation",
+  "status": "active",
+  "description": "HbA1c Observations for CDC measure.",
+  "select": [
+    {
+      "column": [
+        {"name": "observation_id",  "path": "getResourceKey()"},
+        {"name": "patient_id",      "path": "subject.getReferenceKey(Patient)"},
+        {"name": "encounter_id",    "path": "encounter.getReferenceKey(Encounter)"},
+        {"name": "loinc_code",      "path": "code.coding.where(system='http://loinc.org').code.first()"},
+        {"name": "value_quantity",  "path": "value.ofType(Quantity).value"},
+        {"name": "value_unit",      "path": "value.ofType(Quantity).unit"},
+        {"name": "effective_date",  "path": "effectiveDateTime"},
+        {"name": "ts",              "path": "getAidboxTs()"}
+      ]
+    }
+  ]
+}
