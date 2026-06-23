@@ -1,8 +1,0 @@
-{
-  "id": { "measure_id": "CIS-E", "framework": "HEDIS", "measurement_period": "MY2026" },
-  "sql": "-- placeholder: real CIS-E SQL-on-FHIR logic authored in sql-on-fhir-libraries\nSELECT 1;",
-  "view_definitions": [
-    { "name": "immunization_flat", "resource": "Immunization", "version": "1.0.0" }
-  ],
-  "sql_version": "0.0.1-seed"
-}

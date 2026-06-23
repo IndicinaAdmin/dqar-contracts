@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 import pytest
-from dqar_contracts.measures import MeasureSQLLoader, MeasureNotFoundError
-from dqar_contracts.shared.measure import MeasureSpec
+from cdar_contracts.measures import MeasureSQLLoader, MeasureNotFoundError
+from cdar_contracts.shared.measure import MeasureSpec
 
 
 def test_load_seed_artifact(tmp_path: Path):

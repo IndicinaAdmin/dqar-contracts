@@ -1,4 +1,4 @@
-from dqar_contracts.shared import Engagement, MeasurementPeriod, OrganizationRef
+from cdar_contracts.shared import Engagement, MeasurementPeriod, OrganizationRef
 
 
 def test_engagement_roundtrip():

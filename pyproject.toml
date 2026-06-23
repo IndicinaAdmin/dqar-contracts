@@ -3,10 +3,10 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "dqar-contracts"
-version = "1.1.0"
+name = "cdar-contracts"
+version = "2.0.0"
 requires-python = ">=3.9"
-description = "DQAR shared interface definitions — schemas, ViewDefinitions, SQL, EXT metadata"
+description = "CDAR shared interface definitions — schemas, ViewDefinitions, SQL, EXT metadata"
 dependencies = [
     "requests",
     "jsonschema>=4.0",
@@ -21,16 +21,16 @@ dev = [
 ]
 
 [project.scripts]
-dqar-validate = "dqar_contracts.validate:main"
+cdar-validate = "cdar_contracts.validate:main"
 
 [tool.setuptools.package-data]
-"dqar_contracts" = [
+"cdar_contracts" = [
     "schemas/*.json",
     "audit_extensions/*.json",
     "viewdefinitions/*.json",
     "sql/measures/*.sql",
     "ol_facets/*.json",
 ]
-"dqar_contracts.measures" = [
+"cdar_contracts.measures" = [
     "sql/*/*.json",
 ]
